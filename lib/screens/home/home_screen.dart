@@ -16,13 +16,27 @@ class HomeScreen extends StatelessWidget {
       builder: (context, state) {
         var cubit = AppCubit.get(context);
         return (cubit.launches.isNotEmpty)
-            ? ListView.builder(itemBuilder: (context, index) {
-                return LaunchListItem(model: cubit.launches[index],
-                  onTap: (){
-                    cubit.changeHome(newHome:  DetailsScreen(id: cubit.launches[index].flightNumber! ));
-                  },);
-              })
-            : const MyProgress();
+            ? (state is! AppLoadingState)
+                ? ListView.separated(
+                    padding: const EdgeInsets.all(16),
+                    physics: const BouncingScrollPhysics(),
+                    separatorBuilder: (context, index) => const Divider(),
+                    itemBuilder: (context, index) {
+                      return LaunchListItem(
+                        model: cubit.launches[index],
+                        onTap: () {
+                          cubit.changeHome(
+                              newHome: DetailsScreen(
+                                  id: cubit.launches[index].flightNumber!));
+                        },
+                      );
+                    },
+                    itemCount: cubit.launches.length,
+                  )
+                : const MyProgress()
+            : const Center(
+                child: Text('No Data'),
+              );
       },
     );
   }

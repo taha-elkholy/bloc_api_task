@@ -1,10 +1,13 @@
 import 'package:bloc_api_task/models/launch_model.dart';
+import 'package:bloc_api_task/screens/details/details_screen.dart';
+import 'package:bloc_api_task/screens/home/home_screen.dart';
 import 'package:bloc_api_task/shared/blocs/app_cubit/app_states.dart';
 import 'package:bloc_api_task/shared/const/const.dart';
 import 'package:bloc_api_task/shared/network/remot/dio_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitialState());
@@ -15,13 +18,21 @@ class AppCubit extends Cubit<AppStates> {
 
   changeHome({required Widget newHome}) {
     home = newHome;
+    _changeTitle(home: home!);
     emit(AppHomeChanges());
   }
 
   String? title;
 
-  changeTitle({required String newTitle}) {
-    title = newTitle;
+  _changeTitle({required Widget home}) {
+    if (home is HomeScreen) {
+      title = 'Launches';
+    } else if (home is DetailsScreen) {
+      title = 'Launch Info';
+    } else {
+      title = 'Bloc API Task';
+    }
+
     emit(AppTitleChanges());
   }
 
@@ -62,5 +73,15 @@ class AppCubit extends Cubit<AppStates> {
       }
       emit(AppGetOneLaunchErrorState());
     });
+  }
+
+  String formatDate({required String dateTime}) {
+    var _dateTime = DateTime.parse(dateTime);
+    return DateFormat.yMMMd().format(_dateTime);
+  }
+
+  String formatTime({required String dateTime}) {
+    var _dateTime = DateTime.parse(dateTime);
+    return DateFormat.jm().format(_dateTime);
   }
 }

@@ -17,9 +17,12 @@ class AppLayout extends StatelessWidget {
           appBar: AppBar(
             title: Text(cubit.title ?? 'API Task'),
             leading: (cubit.home is! HomeScreen)
-                ? IconButton(onPressed: () {
-              cubit.changeHome(newHome: const HomeScreen());
-            }, icon: const Icon(Icons.arrow_back)) : null,
+                ? IconButton(
+                    onPressed: () {
+                      cubit.changeHome(newHome: const HomeScreen());
+                    },
+                    icon: const Icon(Icons.arrow_back))
+                : null,
           ),
           body: cubit.home ?? const HomeScreen(),
         );

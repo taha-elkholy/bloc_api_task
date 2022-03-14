@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
         ..changeHome(newHome: const HomeScreen())
         ..getAllLaunches(),
       child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primarySwatch: Colors.amber,
           ),

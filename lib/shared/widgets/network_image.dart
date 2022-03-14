@@ -3,8 +3,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MyNetworkImage extends StatelessWidget {
-  const MyNetworkImage({Key? key, required this.url}) : super(key: key);
+  const MyNetworkImage({
+    Key? key,
+    required this.url,
+    this.size,
+  }) : super(key: key);
   final String url;
+  final double? size;
 
   @override
   Widget build(BuildContext context) {
@@ -12,8 +17,8 @@ class MyNetworkImage extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(60),
       ),
-      width: 60,
-      height: 60,
+      width: size ?? 60,
+      height: size ?? 60,
       child: CachedNetworkImage(
         imageUrl: url,
         placeholder: (context, url) => const SizedBox(
