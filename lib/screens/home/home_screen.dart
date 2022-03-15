@@ -15,8 +15,7 @@ class HomeScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         var cubit = AppCubit.get(context);
-        return (cubit.launches.isNotEmpty)
-            ? (state is! AppLoadingState)
+        return (state is! AppLoadingState)
                 ? ListView.separated(
                     padding: const EdgeInsets.all(16),
                     physics: const BouncingScrollPhysics(),
@@ -33,10 +32,7 @@ class HomeScreen extends StatelessWidget {
                     },
                     itemCount: cubit.launches.length,
                   )
-                : const MyProgress()
-            : const Center(
-                child: Text('No Data'),
-              );
+                : const MyProgress();
       },
     );
   }
