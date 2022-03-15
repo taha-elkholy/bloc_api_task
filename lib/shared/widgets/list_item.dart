@@ -1,9 +1,7 @@
 import 'package:bloc_api_task/models/launch_model.dart';
-import 'package:bloc_api_task/shared/blocs/app_cubit/app_cubit.dart';
-import 'package:bloc_api_task/shared/blocs/app_cubit/app_states.dart';
+import 'package:bloc_api_task/shared/helpers/helpers.dart';
 import 'package:bloc_api_task/shared/widgets/network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LaunchListItem extends StatelessWidget {
   const LaunchListItem({Key? key, required this.model, required this.onTap})
@@ -38,25 +36,21 @@ class LaunchListItem extends StatelessWidget {
                   height: 8,
                 ),
                 if (model.date != null)
-                  BlocBuilder<AppCubit, AppStates>(builder: (context, state) {
-                    return Row(
-                      children: [
-                        Text(
-                          AppCubit.get(context)
-                              .formatTime(dateTime: model.date!),
-                          style: const TextStyle(color: Colors.grey),
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          AppCubit.get(context)
-                              .formatDate(dateTime: model.date!),
-                          style: const TextStyle(color: Colors.grey),
-                        ),
-                      ],
-                    );
-                  })
+                  Row(
+                    children: [
+                      Text(
+                        formatTime(dateTime: model.date!),
+                        style: const TextStyle(color: Colors.grey),
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        formatDate(dateTime: model.date!),
+                        style: const TextStyle(color: Colors.grey),
+                      ),
+                    ],
+                  )
               ],
             )
           ],

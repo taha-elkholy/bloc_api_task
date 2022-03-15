@@ -1,17 +1,12 @@
-abstract class AppStates {}
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class AppInitialState extends AppStates {}
+part 'app_states.freezed.dart';
 
-class AppHomeChanges extends AppStates {}
+@freezed
+class AppStates with _$AppStates {
+  const factory AppStates.init() = Initial;
 
-class AppTitleChanges extends AppStates {}
+  const factory AppStates.appHomeChanges() = AppHomeChanges;
 
-class AppLoadingState extends AppStates {}
-
-class AppGetLaunchesSuccessState extends AppStates {}
-
-class AppGetLaunchesErrorState extends AppStates {}
-
-class AppGetOneLaunchSuccessState extends AppStates {}
-
-class AppGetOneLaunchErrorState extends AppStates {}
+  const factory AppStates.appTitleChanges() = AppTitleChanges;
+}

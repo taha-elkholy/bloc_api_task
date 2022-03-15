@@ -1,41 +1,26 @@
 import 'package:bloc_api_task/models/launch_model.dart';
-import 'package:bloc_api_task/shared/blocs/app_cubit/app_cubit.dart';
-import 'package:bloc_api_task/shared/blocs/app_cubit/app_states.dart';
+import 'package:bloc_api_task/shared/blocs/details_cubit/details_cubit.dart';
+import 'package:bloc_api_task/shared/blocs/details_cubit/details_states.dart';
+import 'package:bloc_api_task/shared/helpers/helpers.dart';
 import 'package:bloc_api_task/shared/widgets/my_progress.dart';
+import 'package:bloc_api_task/shared/widgets/my_text.dart';
 import 'package:bloc_api_task/shared/widgets/network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DetailsScreen extends StatefulWidget {
+class DetailsScreen extends StatelessWidget {
   const DetailsScreen({Key? key, required this.id}) : super(key: key);
   final int id;
 
   @override
-  State<DetailsScreen> createState() => _DetailsScreenState();
-}
-
-class _DetailsScreenState extends State<DetailsScreen> {
-  @override
-  void initState() {
-    AppCubit.get(context).getOneLaunches(id: widget.id);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit, AppStates>(
-      listener: (context, state) {},
+    return BlocBuilder<DetailsCubit, DetailsStates>(
       builder: (context, state) {
-        var cubit = AppCubit.get(context);
-        return Padding(
-          padding: const EdgeInsets.all(20),
-          child: (state is! AppLoadingState)
-              ? (cubit.launch != null)
-                  ? DetailsBody(model: cubit.launch!)
-                  : const Center(
-                      child: Text('No Data'),
-                    )
-              : const MyProgress(),
+        return state.maybeWhen(
+          success: (data) => DetailsBody(model: data),
+          error: (error) => const MyText(text: 'There is an error'),
+          loading: () => const MyProgress(),
+          orElse: () => const MyText(text: 'Default'),
         );
       },
     );
@@ -126,7 +111,7 @@ class DetailsBody extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: Text(
-                      AppCubit.get(context).formatDate(dateTime: model.date!),
+                      formatDate(dateTime: model.date!),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.subtitle1,
@@ -146,7 +131,7 @@ class DetailsBody extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: Text(
-                      AppCubit.get(context).formatTime(dateTime: model.date!),
+                      formatTime(dateTime: model.date!),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.subtitle1,
