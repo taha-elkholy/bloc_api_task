@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(const Initial());
 
+  static AppCubit get(context) => BlocProvider.of(context);
   Widget? home;
 
   void changeHome({required Widget newHome}) {

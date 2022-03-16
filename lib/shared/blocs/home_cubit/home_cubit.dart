@@ -7,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class HomeCubit extends Cubit<HomeStates> {
   HomeCubit() : super(const Initial());
 
+  static HomeCubit get(context) => BlocProvider.of(context);
+
   Future<void> getAllLaunches() async {
     emit(const HomeLoading());
     RestClient client = getIt.get<RestClient>();

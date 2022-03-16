@@ -1,4 +1,3 @@
-import 'package:bloc_api_task/main.dart';
 import 'package:bloc_api_task/models/launch_model.dart';
 import 'package:bloc_api_task/screens/details/details_screen.dart';
 import 'package:bloc_api_task/shared/blocs/app_cubit/app_cubit.dart';
@@ -45,7 +44,7 @@ class BuildLaunchesList extends StatelessWidget {
         return LaunchListItem(
           model: data[index],
           onTap: () {
-            getIt.get<AppCubit>().changeHome(
+            AppCubit.get(context).changeHome(
                   newHome: DetailsScreen(id: data[index].flightNumber!),
                 );
           },

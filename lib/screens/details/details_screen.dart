@@ -14,15 +14,18 @@ class DetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DetailsCubit, DetailsStates>(
-      builder: (context, state) {
-        return state.maybeWhen(
-          success: (data) => DetailsBody(model: data),
-          error: (error) => const MyText(text: 'There is an error'),
-          loading: () => const MyProgress(),
-          orElse: () => const MyText(text: 'Default'),
-        );
-      },
+    return BlocProvider(
+      create: (context) => DetailsCubit()..getOneLaunch(id: id),
+      child: BlocBuilder<DetailsCubit, DetailsStates>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            success: (data) => DetailsBody(model: data),
+            error: (error) => const MyText(text: 'There is an error'),
+            loading: () => const MyProgress(),
+            orElse: () => const MyText(text: 'Default'),
+          );
+        },
+      ),
     );
   }
 }
@@ -34,6 +37,7 @@ class DetailsBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      padding: const EdgeInsets.all(20),
       physics: const BouncingScrollPhysics(),
       child: Center(
         child: Column(

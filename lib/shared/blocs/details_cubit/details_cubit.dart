@@ -7,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class DetailsCubit extends Cubit<DetailsStates> {
   DetailsCubit() : super(const Initial());
 
+  static DetailsCubit get(context) => BlocProvider.of(context);
+
   Future<void> getOneLaunch({required int id}) async {
     emit(const DetailsLoading());
     RestClient client = getIt.get<RestClient>();
